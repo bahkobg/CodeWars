@@ -10,33 +10,24 @@ def calc(expression):
     """
 
     # remove all whitespaces
-    expression = ''.join(expression.split()).replace('+-', '-').replace('--', '+')
-
-    def _calc(expression):
-        pass
+    expression = re.subn("\s", "", expression)[0]
 
     def _basic_math(expression):
         if re.search("\(|\)", expression):
-            return None
-        elif re.search('(-[0-9]+|[0-9]+)\*(-[0-9]+|[0-9]+)', expression):
-            print(expression)
-            try:
-                result = re.search('(-[0-9]+|[0-9]+)\*(-[0-9]+|[0-9]+)', expression)
-                result = int(result.group().split('+')[0]) + int(result.group().split('+')[1])
-                return "COULD BE CALC WITH BASIC MATH", re.sub('(-[0-9]+|[0-9]+)\+(-[0-9]+|[0-9]+)', str(result), expression)
-            except:
-                return None
-        elif re.search('(-[0-9]+|[0-9]+)\\(-[0-9]+|[0-9]+)', expression):
-            print(expression)
+            return False
+        elif re.search('(\d)\/(\d)', expression) or re.search('(\d)\*(\d)', expression):
+            return "RESULT -> {}".format(expression)
+        else:
+            return False
 
     return _basic_math(expression)
 
 
 tests = [
-    ["1 + 1", 2],
+    ["434221 + 43421", 2],
     ["8/16", 0.5],
     ["3 -(-1)", 4],
-    ["2 + -2", 0],
+    ["12 + -3232132", 0],
     ["10- 2- -5", 13],
     ["(((10)))", 10],
     ["3 * 5", 15],
