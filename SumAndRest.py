@@ -1,7 +1,7 @@
 import time
 
-cache_keys = []
-cache_values = []
+cache_keys = [1]
+cache_values = [45]
 
 
 def sum_dif_rev(n):
@@ -14,12 +14,13 @@ def sum_dif_rev(n):
             n //= 10
         return r
 
-    found = 0
-    num = 45
-    if cache_keys:
-        found = cache_keys[-1]
-        num = cache_values[-1]
+    if n in cache_keys:
+        return cache_values[cache_keys.index(n)]
+    found = cache_keys[-1]
+    num = cache_values[-1]
+
     while n > found:
+        num += 1
         sum1 = num + reverse_number(num)
         sum2 = abs(num - reverse_number(num))
         if sum2 != 0:
@@ -29,11 +30,11 @@ def sum_dif_rev(n):
                 cache_values.append(num)
             if found == n:
                 return num
-        num += 1
+
     return False
 
 
 t = time.time()
-print(sum_dif_rev(4))
-print(sum_dif_rev(5))
+print(sum_dif_rev(52))
+print(cache_keys, cache_values)
 print(time.time() - t)
